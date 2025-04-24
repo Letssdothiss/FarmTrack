@@ -47,3 +47,4 @@ MIT
 
 ## Project status
 - Currently working on first implementations for the front end.
+- Filstructure with .gitkeep files to build a layered structure.
