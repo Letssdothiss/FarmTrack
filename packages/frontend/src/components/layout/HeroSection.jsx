@@ -3,6 +3,12 @@ import { Link } from 'react-router-dom';
 import backgroundAndLogo from '../../assets/FarmTrackLogo.png';
 import LargeRectangleButton from '../common/LargeRectangleButton';
 
+/**
+ * The hero section component.
+ * Normally used to display landing page content.
+ * 
+ * @returns {React.ReactNode} The hero section component.
+ */
 const HeroSection = () => {
   return (
     <div className="hero-section" style={{
