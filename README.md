@@ -46,3 +46,4 @@ The project uses GitLab CI/CD for automated testing and deployment. Pipeline con
 MIT
 
 ## Project status
+- Currently working on first implementations for the front end.
