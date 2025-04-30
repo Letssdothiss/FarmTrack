@@ -27,6 +27,7 @@ const LargeRectangleButton = ({
     transition: 'all 0.3s ease',
     textDecoration: 'none',
     display: 'inline-block',
+    boxSizing: 'border-box',
     textAlign: 'center',
     backgroundColor: 'rgb(119, 87, 43, 0.95)',
     // If the variant prop is set to short, the following style is applied.
