@@ -1,0 +1,26 @@
+# Använd Node.js LTS som basimage
+FROM node:20-alpine
+
+# Skapa app-katalog
+WORKDIR /usr/src/app
+
+# Kopiera package.json och package-lock.json
+COPY package*.json ./
+
+# Installera endast produktionsberoenden
+RUN npm install --omit=dev
+
+# Kopiera resten av applikationskoden
+COPY . .
+
+# Bygg applikationen
+RUN npm run build
+
+# Installera serve för att servera statiska filer
+RUN npm install -g serve
+
+# Exponera porten som applikationen körs på
+EXPOSE 5000
+
+# Starta applikationen med serve
+CMD ["serve", "-s", "dist", "-l", "5000"] 
