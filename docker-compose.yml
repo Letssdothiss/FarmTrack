@@ -1,0 +1,31 @@
+services:
+  frontend:
+    container_name: farmtrack-frontend
+    build:
+      context: ./packages/frontend
+    environment:
+      - VITE_API_URL=http://localhost:5000
+    ports:
+      - "5173:5173"
+
+  backend:
+    container_name: farmtrack-backend
+    build:
+      context: ./packages/backend
+    environment:
+      - NODE_ENV=development
+      - PORT=5000
+      - MONGODB_URI=mongodb://mongodb:27017/farmtrack
+    depends_on:
+      - mongodb
+    ports:
+      - "5000:5000"
+
+  mongodb:
+    container_name: farmtrack-mongodb
+    image: mongo:latest
+    volumes:
+      - mongodb_data:/data/db
+
+volumes:
+  mongodb_data:
