@@ -58,7 +58,7 @@ test-backend-lint:
   only:
     - main
 
-# Deploy to production.
+# Deploy to production
 deploy:
   stage: deploy
   image: alpine:latest
@@ -67,12 +67,13 @@ deploy:
     - eval $(ssh-agent -s)
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
-    - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | base64 -d > ~/.ssh/id_rsa
     - chmod 600 ~/.ssh/id_rsa
-    - echo "$SSH_KNOWN_HOSTS" | base64 -d >> ~/.ssh/known_hosts
+    - echo "$SSH_KNOWN_HOSTS" | tr -d '\r' | base64 -d > ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
+    - ssh-add ~/.ssh/id_rsa
   script:
-    - ssh $SSH_USER@$SSH_HOST "cd /var/www/farmtrack && git pull origin main && docker compose -f docker-compose.production.yml up --build -d"
+    - ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "cd /var/www/farmtrack && git pull origin main && docker compose -f docker-compose.production.yml up --build -d"
   only:
     - main
   when: manual 
