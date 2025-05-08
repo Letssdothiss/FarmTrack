@@ -47,4 +47,4 @@ MIT
 
 ## Project status
 - Currently working on first implementations for the front end.
-- Filstructure with .gitkeep files to build a layered structure.
+- Application is deployed @ https://cscloud7-138.lnu.se/ 
