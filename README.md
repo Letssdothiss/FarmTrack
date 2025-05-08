@@ -45,6 +45,6 @@ The project uses GitLab CI/CD for automated testing and deployment. Pipeline con
 ## License
 MIT
 
-## Project status
+## Project status.
 - Currently working on gitlab pipelines
 - Application is deployed @ https://cscloud7-138.lnu.se/ 
