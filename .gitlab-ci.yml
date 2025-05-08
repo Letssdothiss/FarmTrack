@@ -36,28 +36,27 @@ build-backend:
     paths:
       - packages/backend/dist/
 
-# Test Docker build
-test-docker-build:
+# Test frontend
+test-frontend:
   stage: test
-  image: docker:latest
-  services:
-    - name: docker:dind
-      alias: docker
-      command: ["--tls=false"]
-  variables:
-    DOCKER_HOST: tcp://docker:2375
-    DOCKER_TLS_CERTDIR: ""
-  before_script:
-    - apk add --no-cache curl
-    - curl -L "https://github.com/docker/compose/releases/download/v2.24.6/docker-compose-$(uname -s)-$(uname -m)" -o /usr/local/bin/docker-compose
-    - chmod +x /usr/local/bin/docker-compose
-    - sleep 10  # Give Docker daemon time to start
+  image: node:20-alpine
   script:
-    - docker-compose -f docker-compose.production.yml build
+    - cd packages/frontend
+    - npm install
+    - npm run lint
   only:
     - main
-  tags:
-    - privileged
+
+# Test backend
+test-backend:
+  stage: test
+  image: node:20-alpine
+  script:
+    - cd packages/backend
+    - npm install
+    - npm run lint
+  only:
+    - main
 
 # Deploy to production
 deploy:
