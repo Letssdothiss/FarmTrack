@@ -5,10 +5,6 @@ stages:
 
 variables:
   DOCKER_DRIVER: overlay2
-  DOCKER_TLS_CERTDIR: "/certs"
-  DOCKER_HOST: tcp://docker:2376
-  DOCKER_TLS_VERIFY: 1
-  DOCKER_CERT_PATH: "/certs/client"
 
 # Cache dependencies between jobs
 cache:
@@ -45,13 +41,9 @@ test-docker-build:
   stage: test
   image: docker:latest
   services:
-    - name: docker:dind
-      command: ["--tls=true", "--tlscert=/certs/server/cert.pem", "--tlskey=/certs/server/key.pem"]
+    - docker:dind
   variables:
-    DOCKER_TLS_CERTDIR: "/certs"
-    DOCKER_HOST: tcp://docker:2376
-    DOCKER_TLS_VERIFY: 1
-    DOCKER_CERT_PATH: "/certs/client"
+    DOCKER_TLS_CERTDIR: ""
   before_script:
     - apk add --no-cache docker-compose
   script:
