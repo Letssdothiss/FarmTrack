@@ -48,7 +48,7 @@ const HeroSection = () => {
         marginTop: '20px'
       }}>
         <LargeRectangleButton
-          text='.'
+          text='Logga in'
           to='/login'
           variant='wide'
         />
