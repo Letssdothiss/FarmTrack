@@ -76,7 +76,7 @@ deploy:
     - ssh-keygen -l -f ~/.ssh/id_rsa  # Debug: check key format
     - ssh-add ~/.ssh/id_rsa
   script:
-    - ssh -v -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd /var/www/farmtrack && git pull origin main && docker compose -f docker-compose.production.yml up --build -d"
+    - ssh -v -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd /var/www/farmtrack && echo '=== Local Changes ===' && git status && echo '=== Diff ===' && git diff"
   only:
     - main
   when: manual 
