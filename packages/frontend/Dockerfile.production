@@ -7,14 +7,18 @@ WORKDIR /usr/src/app
 # Kopiera package.json och package-lock.json
 COPY package*.json ./
 
-# Installera endast produktionsberoenden
-RUN npm install --omit=dev
+# Installera alla beroenden först (inklusive dev-dependencies för byggning)
+RUN npm install
 
 # Kopiera resten av applikationskoden
 COPY . .
 
 # Bygg applikationen
 RUN npm run build
+
+# Rensa node_modules och installera endast produktionsberoenden
+RUN rm -rf node_modules
+RUN npm install --omit=dev
 
 # Installera serve för att servera statiska filer
 RUN npm install -g serve
@@ -23,4 +27,4 @@ RUN npm install -g serve
 EXPOSE 5000
 
 # Starta applikationen med serve
-CMD ["serve", "-s", "dist", "-l", "5000"] 
+CMD ["serve", "-s", "dist", "-l", "5000"]
