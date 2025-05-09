@@ -67,18 +67,16 @@ deploy:
     - eval $(ssh-agent -s)
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
-    - |
-      echo "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+    - echo "$SSH_PRIVATE_KEY" | base64 -d > ~/.ssh/id_rsa
     - chmod 600 ~/.ssh/id_rsa
-    - |
-      echo "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+    - echo "$SSH_KNOWN_HOSTS" | base64 -d > ~/.ssh/known_hosts
     - chmod 644 ~/.ssh/known_hosts
     - ls -la ~/.ssh/  # Debug: list SSH directory
     - cat ~/.ssh/id_rsa | head -n 1  # Debug: print first line of key
     - ssh-keygen -l -f ~/.ssh/id_rsa  # Debug: check key format
     - ssh-add ~/.ssh/id_rsa
   script:
-    - ssh -v -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST "cd /var/www/farmtrack && git pull origin main && docker compose -f docker-compose.production.yml up --build -d"
+    - ssh -v -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd /var/www/farmtrack && git pull origin main && docker compose -f docker-compose.production.yml up --build -d"
   only:
     - main
   when: manual 
