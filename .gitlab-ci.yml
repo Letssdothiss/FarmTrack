@@ -67,9 +67,13 @@ deploy:
     - eval $(ssh-agent -s)
     - mkdir -p ~/.ssh
     - chmod 700 ~/.ssh
-    - printf "%s\n" "$SSH_PRIVATE_KEY" > ~/.ssh/id_rsa
+    - cat > ~/.ssh/id_rsa << 'EOL'
+    $SSH_PRIVATE_KEY
+    EOL
     - chmod 600 ~/.ssh/id_rsa
-    - printf "%s\n" "$SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+    - cat > ~/.ssh/known_hosts << 'EOL'
+    $SSH_KNOWN_HOSTS
+    EOL
     - chmod 644 ~/.ssh/known_hosts
     - ls -la ~/.ssh/  # Debug: list SSH directory
     - cat ~/.ssh/id_rsa | head -n 1  # Debug: print first line of key
