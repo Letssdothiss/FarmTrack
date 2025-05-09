@@ -1,0 +1,17 @@
+# Build output
+dist/
+build/
+
+# Dependencies
+node_modules/
+
+# Cache
+.cache/
+.eslintcache
+
+# Coverage
+coverage/
+
+# Other
+*.min.js
+*.bundle.js 

@@ -1,5 +1,5 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+// import { Link } from 'react-router-dom';
 import backgroundAndLogo from '../../assets/FarmTrackLogo.png';
 import LargeRectangleButton from '../common/LargeRectangleButton';
 
