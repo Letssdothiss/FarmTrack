@@ -27,10 +27,13 @@ mongoose.connect(MONGODB_URI)
 // Middleware
 app.use(cors({
   origin: [
-    'http://localhost:5173',  // Development
-    'https://farmtrack.lnu.se'  // Production
+    'http://localhost:5173',     // Development
+    'https://farmtrack.lnu.se',  // Production
+    'http://farmtrack.lnu.se'    // Production (without https)
   ],
-  credentials: true
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization']
 }));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
