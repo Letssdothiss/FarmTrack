@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Background from '../components/layout/Background';
 import LogoutButton from '../components/common/LogoutButton';
 import { fetchWithAuth } from '../utils/api';
+import API_URL from '../config/api';
 
 /**
  * MyAnimalsPage component
@@ -16,7 +17,7 @@ const MyAnimalsPage = () => {
   useEffect(() => {
     const fetchAnimals = async () => {
       try {
-        const response = await fetchWithAuth('http://localhost:5000/api/animals');
+        const response = await fetchWithAuth(`${API_URL}/animals`);
         if (!response.ok) {
           throw new Error('Kunde inte hämta djur');
         }

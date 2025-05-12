@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import Background from './Background';
 import LargeRectangleButton from '../common/LargeRectangleButton';
 import { useLoginFormValidation } from '../../hooks/useLoginFormValidation';
+import API_URL from '../../config/api';
 
 /**
  * LoginForm component
@@ -41,7 +42,7 @@ const LoginForm = () => {
     if (validate()) {
       try {
         // Send data to backend.
-        const response = await fetch('http://localhost:5000/api/auth/login', {
+        const response = await fetch(`${API_URL}/auth/login`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
