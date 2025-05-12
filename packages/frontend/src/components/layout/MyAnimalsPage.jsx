@@ -1,5 +1,6 @@
 import React from 'react';
 import Background from './Background';
+import LogoutButton from '../common/LogoutButton';
 
 /**
  * MyAnimalsPage component
@@ -9,6 +10,7 @@ import Background from './Background';
 const MyAnimalsPage = () => {
   return (
     <Background>
+      <LogoutButton />
       <div style={{
         backgroundColor: 'rgb(119, 87, 43, 0.95)',
         width: '500px',

@@ -3,6 +3,10 @@ import cors from 'cors';
 import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
+import mongoose from 'mongoose';
+import { verifyToken } from './middleware/auth.js';
+import authRoutes from './routes/auth.js';
+import animalRoutes from './routes/animal.js';
 
 // Load environment variables
 dotenv.config();
@@ -14,18 +18,28 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Connect to MongoDB
+const MONGODB_URI = `${process.env.MONGODB_URI_BASE}${process.env.MONGODB_URI_PARAMS}`;
+mongoose.connect(MONGODB_URI)
+  .then(() => console.log('Connected to MongoDB'))
+  .catch(err => console.error('MongoDB connection error:', err));
+
 // Middleware
-app.use(cors());
+app.use(cors({
+  origin: 'http://localhost:5173',
+  credentials: true
+}));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Public routes
+app.use('/api/auth', authRoutes);
+
+// Protected routes
+app.use('/api/animals', verifyToken, animalRoutes);
+
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '../../frontend/dist')));
-
-// API Routes
-app.get('/api/hello', (req, res) => {
-  res.json({ message: 'Hello World' });
-});
 
 // Development mode - show API info
 if (process.env.NODE_ENV === 'development') {
@@ -33,9 +47,11 @@ if (process.env.NODE_ENV === 'development') {
     res.json({
       message: 'FarmTrack API is running!',
       api: {
-        hello: '/api/hello'
-      },
-      note: 'Frontend is not built yet. Run npm run dev in the frontend directory to start development.'
+        auth: {
+          register: 'POST /api/auth/register',
+          login: 'POST /api/auth/login'
+        }
+      }
     });
   });
 }
@@ -43,6 +59,23 @@ if (process.env.NODE_ENV === 'development') {
 // Error handling middleware
 app.use((err, req, res, next) => {
   console.error(err.stack);
+  
+  // Handle specific error types
+  if (err.name === 'ValidationError') {
+    return res.status(400).json({
+      error: 'Validation Error',
+      message: err.message
+    });
+  }
+
+  if (err.name === 'JsonWebTokenError') {
+    return res.status(401).json({
+      error: 'Invalid Token',
+      message: 'Invalid authentication token'
+    });
+  }
+
+  // Default error
   res.status(500).json({ 
     error: 'Something went wrong!',
     message: process.env.NODE_ENV === 'development' ? err.message : undefined

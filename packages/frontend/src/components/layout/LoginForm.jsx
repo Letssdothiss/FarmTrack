@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Background from './Background';
 import LargeRectangleButton from '../common/LargeRectangleButton';
-import { useFormValidation } from '../../hooks/useFormValidation';
+import { useLoginFormValidation } from '../../hooks/useLoginFormValidation';
 
 /**
  * LoginForm component
@@ -15,7 +15,7 @@ const LoginForm = () => {
     handleChange,
     validate,
     resetForm
-  } = useFormValidation({
+  } = useLoginFormValidation({
     email: '',
     password: ''
   });
@@ -35,14 +35,38 @@ const LoginForm = () => {
   };
 
   // Handle submit event.
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
+    // Validate form.
     if (validate()) {
-      // Form is valid, proceed with submission
-      console.log('Form data:', formData);
-      // Here you would typically send data to backend
-      resetForm();
+      try {
+        // Send data to backend.
+        const response = await fetch('http://localhost:5000/api/auth/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(formData)
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || 'Ett fel uppstod vid inloggning');
+        }
+
+        // Save token to localStorage
+        localStorage.setItem('token', data.token);
+        
+        // Reset form
+        resetForm();
+        
+        // Redirect to my-animals page
+        window.location.href = '/my-animals';
+      } catch (error) {
+        console.error('Login error:', error);
+        // Here you might want to show the error to the user
+      }
     }
   };
 
