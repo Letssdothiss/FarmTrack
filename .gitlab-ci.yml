@@ -73,7 +73,7 @@ deploy:
     - chmod 644 ~/.ssh/known_hosts
     - ssh-add ~/.ssh/id_rsa
   script:
-    - ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd /var/www/farmtrack && git pull origin main && docker compose -f docker-compose.production.yml up --build -d"
+    - ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd /var/www/farmtrack && git pull origin main && MONGODB_URI_BASE=$MONGODB_URI_BASE MONGODB_URI_PARAMS=$MONGODB_URI_PARAMS docker compose -f docker-compose.production.yml up --build -d"
   only:
     - main
   when: manual 
