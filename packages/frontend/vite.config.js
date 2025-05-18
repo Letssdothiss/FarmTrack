@@ -12,5 +12,8 @@ export default defineConfig({
       'cscloud7-138.lnu.se',
       'farmtrack.lnu.se'
     ]
+  },
+  define: {
+    'import.meta.env.PROD': JSON.stringify(process.env.NODE_ENV === 'production')
   }
 })
