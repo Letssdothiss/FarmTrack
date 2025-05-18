@@ -21,7 +21,7 @@ const PORT = process.env.PORT || 5000;
 // Connect to MongoDB
 const MONGODB_URI = `${process.env.MONGODB_URI_BASE}${process.env.MONGODB_URI_PARAMS}`;
 mongoose.connect(MONGODB_URI)
-  .then(() => console.log('Connected to MongoDB'))
+  .then(() => console.log('Connected to MongoDB.'))
   .catch(err => console.error('MongoDB connection error:', err));
 
 // Middleware
@@ -39,7 +39,7 @@ app.options('*', cors());
 
 // Add security headers
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'https://farmtrack.lnu.se');
+  res.header('Access-Control-Allow-Origin', 'https://cscloud7-138.lnu.se');
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   res.header('Access-Control-Allow-Credentials', 'true');
