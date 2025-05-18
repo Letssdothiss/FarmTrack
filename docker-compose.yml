@@ -4,7 +4,7 @@ services:
     build:
       context: ./packages/frontend
     environment:
-      - VITE_API_URL=http://localhost:5000
+      - VITE_API_URL=https://cscloud7-138.lnu.se/api
     ports:
       - "5173:5173"
 
