@@ -1,4 +1,4 @@
-// Determine if we're in production based on the current URL
+// Determine if we're in production based on the current URL.
 const isProduction = window.location.hostname === 'cscloud7-138.lnu.se';
 
 const API_URL = isProduction
