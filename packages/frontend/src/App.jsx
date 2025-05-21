@@ -23,7 +23,6 @@ function App() {
             </ProtectedRoute>
           } 
         />
-        {/* Add more routes here as needed */}
       </Routes>
     </Router>
   );

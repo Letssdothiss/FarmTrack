@@ -18,15 +18,23 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 5000;
 
+// Debug logging for MongoDB connection
+console.log('MONGODB_URI_BASE:', process.env.MONGODB_URI_BASE);
+console.log('MONGODB_URI_PARAMS:', process.env.MONGODB_URI_PARAMS);
+
 // Connect to MongoDB
 const MONGODB_URI = `${process.env.MONGODB_URI_BASE}${process.env.MONGODB_URI_PARAMS}`;
+console.log('Full MongoDB URI:', MONGODB_URI);
+
 mongoose.connect(MONGODB_URI)
   .then(() => console.log('Connected to MongoDB.'))
   .catch(err => console.error('MongoDB connection error:', err));
 
 // Middleware
 app.use(cors({
-  origin: true, // Allow all origins in development, will be restricted in production
+  origin: process.env.NODE_ENV === 'production' 
+    ? 'https://cscloud7-138.lnu.se'  // Production
+    : 'http://localhost:5173',        // Development
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
@@ -39,7 +47,9 @@ app.options('*', cors());
 
 // Add security headers
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', 'https://cscloud7-138.lnu.se');
+  res.header('Access-Control-Allow-Origin', process.env.NODE_ENV === 'production' 
+    ? 'https://cscloud7-138.lnu.se'  // Production
+    : 'http://localhost:5173');       // Development
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   res.header('Access-Control-Allow-Credentials', 'true');
