@@ -74,19 +74,12 @@ deploy:
     - ssh-add ~/.ssh/id_rsa
   script:
     - |
-      ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST << 'EOF'
-        cd /var/www/farmtrack
-        git pull origin main
-        
-        # Create .env file
-        cat > .env << EOF
-        MONGODB_URI_BASE=${MONGODB_URI_BASE}
-        MONGODB_URI_PARAMS=${MONGODB_URI_PARAMS}
-        JWT_SECRET=${JWT_SECRET}
-        EOF
-        
-        docker compose -f /var/www/farmtrack/docker-compose.yml up --build -d
-      EOF
+      ssh -o StrictHostKeyChecking=no -i ~/.ssh/id_rsa $SSH_USER@$SSH_HOST "cd /var/www/farmtrack && \
+        git pull origin main && \
+        echo 'MONGODB_URI_BASE=$MONGODB_URI_BASE' > .env && \
+        echo 'MONGODB_URI_PARAMS=$MONGODB_URI_PARAMS' >> .env && \
+        echo 'JWT_SECRET=$JWT_SECRET' >> .env && \
+        docker compose -f /var/www/farmtrack/docker-compose.yml up --build -d"
   only:
     - main
   when: manual 
