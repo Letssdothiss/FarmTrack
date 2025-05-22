@@ -16,6 +16,11 @@ const userSchema = new mongoose.Schema({
   password: {
     type: String,
     required: true
+  },
+  seNumber: {
+    type: String,
+    trim: true,
+    sparse: true
   }
 }, {
   // Lägger automatiskt till createdAt och updatedAt

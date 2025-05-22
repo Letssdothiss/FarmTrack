@@ -2,6 +2,7 @@ import express from 'express';
 import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
+import { verifyToken } from '../middleware/auth.js';
 
 const router = express.Router();
 
@@ -69,6 +70,20 @@ router.post('/login', async (req, res) => {
     res.json({ token });
   } catch (error) {
     console.error('Login error:', error);
+    res.status(500).json({ message: 'Server error' });
+  }
+});
+
+// Profile route
+router.get('/profile', verifyToken, async (req, res) => {
+  try {
+    const user = await User.findById(req.user.userId).select('-password');
+    if (!user) {
+      return res.status(404).json({ message: 'Användare hittades inte' });
+    }
+    res.json(user);
+  } catch (error) {
+    console.error('Profile error:', error);
     res.status(500).json({ message: 'Server error' });
   }
 });
