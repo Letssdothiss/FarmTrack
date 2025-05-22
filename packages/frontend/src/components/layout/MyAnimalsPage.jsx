@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useNavigate } from 'react-router-dom';
+// import { useNavigate } from 'react-router-dom';
 import Background from './Background';
 import LogoutButton from '../common/LogoutButton';
 import { fetchWithAuth } from '../../utils/api';
@@ -12,7 +12,7 @@ import DeleteAccountModal from '../common/DeleteAccountModal';
  * @returns {React.ReactElement} The MyAnimalsPage component
  */
 const MyAnimalsPage = () => {
-  const navigate = useNavigate();
+  // const navigate = useNavigate();
   const [userData, setUserData] = useState({
     email: '',
     seNumber: '',
@@ -20,7 +20,7 @@ const MyAnimalsPage = () => {
   });
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
-  const [animals, setAnimals] = useState([]);
+  // const [animals, setAnimals] = useState([]);
   const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   useEffect(() => {
@@ -48,10 +48,10 @@ const MyAnimalsPage = () => {
     console.log('Ändra lösenord');
   };
 
-  const handleUpdateSeNumber = () => {
+  /* const handleUpdateSeNumber = () => {
     // TODO: Implementera SE-nummer hantering senare
     console.log('Ändra SE-nummer');
-  };
+  }; */
 
   const handleDeleteAccount = () => {
     setIsDeleteModalOpen(true);
