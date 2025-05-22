@@ -79,6 +79,7 @@ deploy:
         git pull origin main
         export MONGODB_URI_BASE="${MONGODB_URI_BASE}"
         export MONGODB_URI_PARAMS="${MONGODB_URI_PARAMS}"
+        export JWT_SECRET="${JWT_SECRET}"
         docker compose -f /var/www/farmtrack/docker-compose.yml up --build -d
       EOF
   only:
