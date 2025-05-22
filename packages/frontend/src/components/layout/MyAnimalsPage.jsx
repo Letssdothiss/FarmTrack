@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 import Background from './Background';
 import LogoutButton from '../common/LogoutButton';
 import { fetchWithAuth } from '../../utils/api';
 import API_URL from '../../config/api';
+import DeleteAccountModal from '../common/DeleteAccountModal';
 
 /**
  * MyAnimalsPage component
@@ -10,13 +12,16 @@ import API_URL from '../../config/api';
  * @returns {React.ReactElement} The MyAnimalsPage component
  */
 const MyAnimalsPage = () => {
+  const navigate = useNavigate();
   const [userData, setUserData] = useState({
     email: '',
-    seNumber: ''
+    seNumber: '',
+    password: ''
   });
-  const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [animals, setAnimals] = useState([]);
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false);
 
   useEffect(() => {
     const fetchUserData = async () => {
@@ -38,18 +43,18 @@ const MyAnimalsPage = () => {
     fetchUserData();
   }, []);
 
-  const handlePasswordToggle = () => {
-    setShowPassword(!showPassword);
-  };
-
   const handleUpdatePassword = () => {
-    // TODO: Implementera lösenordsuppdatering
-    console.log('Uppdatera lösenord');
+    // TODO: Implementera lösenordsändring senare
+    console.log('Ändra lösenord');
   };
 
-  const handleAddSeNumber = () => {
-    // TODO: Implementera SE-nummer hantering
-    console.log('Lägg till SE-nummer');
+  const handleUpdateSeNumber = () => {
+    // TODO: Implementera SE-nummer hantering senare
+    console.log('Ändra SE-nummer');
+  };
+
+  const handleDeleteAccount = () => {
+    setIsDeleteModalOpen(true);
   };
 
   if (loading) {
@@ -111,38 +116,28 @@ const MyAnimalsPage = () => {
               <p style={{ margin: 0 }}>{userData.email}</p>
             </div>
             <div>
-              <h3 style={{ margin: '0 0 5px 0' }}>Lösenord
-              <button
-                  onClick={handleUpdatePassword}
-                  style={{
-                    backgroundColor: 'transparent',
-                    border: 'none',
-                    color: 'white',
-                    cursor: 'pointer',
-                    padding: '5px'
-                  }}
-                >
-                  ✏️
-                </button>
-              </h3>
+              <h3 style={{ margin: '0 0 5px 0' }}>Lösenord</h3>
               <div style={{
                 display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                gap: '10px'
+                flexDirection: 'column',
+                gap: '5px',
+                alignItems: 'center'
               }}>
-                <p style={{ margin: 0 }}>{showPassword ? '********' : '••••••••'}</p>
                 <button
-                  onClick={handlePasswordToggle}
+                  onClick={handleUpdatePassword}
                   style={{
-                    backgroundColor: 'transparent',
-                    border: 'none',
+                    backgroundColor: 'rgb(108, 117, 125)',
                     color: 'white',
+                    padding: '10px 20px',
+                    borderRadius: '4px',
                     cursor: 'pointer',
-                    padding: '5px'
+                    textAlign: 'center',
+                    fontWeight: 'bold',
+                    border: 'none',
+                    width: '200px'
                   }}
                 >
-                  {showPassword ? '👁️' : '👁️‍🗨️'}
+                  Ändra lösenord
                 </button>
               </div>
             </div>
@@ -161,18 +156,6 @@ const MyAnimalsPage = () => {
                 gap: '10px'
               }}>
                 <h3 style={{ margin: '0 0 5px 0' }}>SE-nummer</h3>
-                <button
-                  onClick={handleAddSeNumber}
-                  style={{
-                    backgroundColor: 'transparent',
-                    border: 'none',
-                    color: 'white',
-                    cursor: 'pointer',
-                    padding: '5px'
-                  }}
-                >
-                  ✏️
-                </button>
               </div>
               <p style={{ margin: 0 }}>{userData.seNumber || 'Inte angivet'}</p>
             </div>
@@ -184,17 +167,21 @@ const MyAnimalsPage = () => {
             gap: '10px',
             width: '80%'
           }}>
-            <div style={{
-              backgroundColor: 'rgb(220, 53, 69)',
-              color: 'white',
-              padding: '10px 20px',
-              borderRadius: '4px',
-              cursor: 'pointer',
-              textAlign: 'center',
-              fontWeight: 'bold'
-            }}>
+            <button
+              onClick={handleDeleteAccount}
+              style={{
+                backgroundColor: 'rgb(220, 53, 69)',
+                color: 'white',
+                padding: '10px 20px',
+                borderRadius: '4px',
+                cursor: 'pointer',
+                textAlign: 'center',
+                fontWeight: 'bold',
+                border: 'none'
+              }}
+            >
               Radera konto
-            </div>
+            </button>
             <div style={{
               backgroundColor: 'rgb(108, 117, 125)',
               color: 'white',
@@ -232,6 +219,11 @@ const MyAnimalsPage = () => {
           {/* Här kommer vi senare lägga till en lista med djur */}
         </div>
       </div>
+
+      <DeleteAccountModal
+        isOpen={isDeleteModalOpen}
+        onClose={() => setIsDeleteModalOpen(false)}
+      />
     </Background>
   );
 };
