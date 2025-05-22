@@ -9,27 +9,56 @@ import LogoutButton from '../common/LogoutButton';
  */
 const MyAnimalsPage = () => {
   return (
-    <Background>
+    <Background showBackButton={false}>
       <LogoutButton />
       <div style={{
-        backgroundColor: 'rgb(119, 87, 43, 0.95)',
-        width: '500px',
-        padding: '20px',
         display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        boxSizing: 'border-box',
+        flexDirection: 'row',
         gap: '20px',
-        borderRadius: '8px'
+        justifyContent: 'center',
+        alignItems: 'flex-start'
       }}>
-        <h1 style={{
-          fontSize: '2rem',
-          color: 'white',
-          margin: '0'
+        <div style={{
+          backgroundColor: 'rgb(119, 87, 43, 0.95)',
+          width: '40vw',
+          height: '75vw',
+          padding: '20px',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          boxSizing: 'border-box',
+          gap: '20px',
+          borderRadius: '8px'
         }}>
-          Mina djur
-        </h1>
-        {/* Här kommer vi senare lägga till en lista med djur */}
+          <h1 style={{
+            fontSize: '2rem',
+            color: 'white',
+            margin: '0'
+          }}>
+            Min Profil
+          </h1>
+          {/* Här kommer vi senare lägga till en lista med djur */}
+        </div>
+        <div style={{
+          backgroundColor: 'rgb(119, 87, 43, 0.95)',
+          width: '40vw',
+          height: '75vw',
+          padding: '20px',
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          boxSizing: 'border-box',
+          gap: '20px',
+          borderRadius: '8px'
+        }}>
+          <h1 style={{
+            fontSize: '2rem',
+            color: 'white',
+            margin: '0'
+          }}>
+            Mina Djur
+          </h1>
+        </div>
       </div>
     </Background>
   );

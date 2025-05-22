@@ -9,9 +9,10 @@ import GoBackButton from '../common/GoBackButton';
  * @param {Object} props - The props for the component.
  * @param {React.ReactNode} props.children - The content to be displayed on top of the background.
  * @param {string} [props.backTo] - The path to navigate to when the back button is clicked.
+ * @param {boolean} [props.showBackButton=true] - Whether to show the back button.
  * @returns {React.ReactNode} The background component with content and back button.
  */
-const Background = ({ children, backTo = '/' }) => {
+const Background = ({ children, backTo = '/', showBackButton = true }) => {
   return (
     <div style={{
       backgroundImage: `url(${backgroundImage})`,
@@ -29,13 +30,15 @@ const Background = ({ children, backTo = '/' }) => {
       overflow: 'hidden',
       position: 'relative'
     }}>
-      <div style={{
-        position: 'absolute',
-        top: '20px',
-        left: '20px'
-      }}>
-        <GoBackButton to={backTo} />
-      </div>
+      {showBackButton && (
+        <div style={{
+          position: 'absolute',
+          top: '20px',
+          left: '20px'
+        }}>
+          <GoBackButton to={backTo} />
+        </div>
+      )}
       {children}
     </div>
   );
