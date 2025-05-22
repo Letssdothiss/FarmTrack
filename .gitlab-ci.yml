@@ -79,11 +79,11 @@ deploy:
         git pull origin main
         
         # Create .env file
-        cat > .env << 'ENVEOF'
+        cat > .env << EOF
         MONGODB_URI_BASE=${MONGODB_URI_BASE}
         MONGODB_URI_PARAMS=${MONGODB_URI_PARAMS}
         JWT_SECRET=${JWT_SECRET}
-        ENVEOF
+        EOF
         
         docker compose -f /var/www/farmtrack/docker-compose.yml up --build -d
       EOF
