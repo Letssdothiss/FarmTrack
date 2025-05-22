@@ -66,7 +66,7 @@ const LoginForm = () => {
         window.location.href = '/my-animals';
       } catch (error) {
         console.error('Login error:', error);
-        // Here you might want to show the error to the user
+        alert('Inloggningen misslyckades: ' + (error.message || 'Okänt fel'));
       }
     }
   };
