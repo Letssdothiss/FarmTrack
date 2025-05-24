@@ -5,7 +5,7 @@ import LogoutButton from '../common/LogoutButton';
 import { fetchWithAuth } from '../../utils/api';
 import API_URL from '../../config/api';
 import DeleteAccountModal from '../common/DeleteAccountModal';
-
+import AnimalTypeButton from '../common/AnimalTypeButton';
 /**
  * MyAnimalsPage component
  *
@@ -216,7 +216,16 @@ const MyAnimalsPage = () => {
           }}>
             Mina Djur
           </h1>
-          {/* Här kommer vi senare lägga till en lista med djur */}
+          <div style={{
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '10px',
+            width: '80%',
+          }}>
+            <AnimalTypeButton type="cattle" to="/my-animals/cattle" />
+            <AnimalTypeButton type="goat" to="/my-animals/goat" />
+            <AnimalTypeButton type="poultry" to="/my-animals/poultry" />
+          </div>
         </div>
       </div>
 
