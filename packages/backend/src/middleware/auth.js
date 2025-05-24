@@ -19,7 +19,7 @@ export const verifyToken = (req, res, next) => {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     
     // Add user from payload to request
-    req.user = decoded;
+    req.user = { _id: decoded.userId };
     
     next();
   } catch (error) {

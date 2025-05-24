@@ -6,6 +6,7 @@ import MyAnimals from './pages/myAnimals/MyAnimals';
 import CattlePage from './pages/myAnimals/CattlePage';
 import GoatPage from './pages/myAnimals/GoatPage';
 import PoultryPage from './pages/myAnimals/PoultryPage';
+import IndividualAnimalPage from './pages/myAnimals/IndividualAnimalPage';
 import ProtectedRoute from './components/common/ProtectedRoute';
 
 function App() {
@@ -47,6 +48,14 @@ function App() {
           element={
             <ProtectedRoute>
               <PoultryPage />
+            </ProtectedRoute>
+          } 
+        />
+        <Route 
+          path='/my-animals/:type/:name' 
+          element={
+            <ProtectedRoute>
+              <IndividualAnimalPage />
             </ProtectedRoute>
           } 
         />

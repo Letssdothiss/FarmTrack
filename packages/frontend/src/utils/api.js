@@ -7,9 +7,14 @@
 export const fetchWithAuth = async (url, options = {}) => {
   const token = localStorage.getItem('token');
   
+  if (!token) {
+    window.location.href = '/login';
+    throw new Error('No authentication token found');
+  }
+
   const headers = {
     'Content-Type': 'application/json',
-    ...(token && { 'Authorization': `Bearer ${token}` }),
+    'Authorization': `Bearer ${token}`,
     ...options.headers
   };
 

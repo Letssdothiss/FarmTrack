@@ -10,6 +10,7 @@ const PoultryPage = () => {
   return (
     <AnimalTypePage
       title="Fjäderfä"
+      type="poultry"
       leftColumn={
         <div style={{ color: 'white' }}>
           {/* Här kommer anteckningar */}
