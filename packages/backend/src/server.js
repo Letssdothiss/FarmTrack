@@ -7,6 +7,7 @@ import mongoose from 'mongoose';
 import { verifyToken } from './middleware/auth.js';
 import authRoutes from './routes/auth.js';
 import animalRoutes from './routes/animal.js';
+import individualRoutes from './routes/individuals.js';
 
 // Load environment variables
 dotenv.config();
@@ -18,23 +19,30 @@ const __dirname = path.dirname(__filename);
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Debug logging for MongoDB connection
-console.log('MONGODB_URI_BASE:', process.env.MONGODB_URI_BASE);
-console.log('MONGODB_URI_PARAMS:', process.env.MONGODB_URI_PARAMS);
-
 // Connect to MongoDB
 const MONGODB_URI = `${process.env.MONGODB_URI_BASE}${process.env.MONGODB_URI_PARAMS}`;
-console.log('Full MongoDB URI:', MONGODB_URI);
 
 mongoose.connect(MONGODB_URI)
   .then(() => console.log('Connected to MongoDB.'))
   .catch(err => console.error('MongoDB connection error:', err));
 
-// Middleware
+// CORS configuration
+const allowedOrigins = [
+  'http://localhost:5173',  // Vite development server
+  'https://cscloud7-138.lnu.se'  // Production
+];
+
 app.use(cors({
-  origin: process.env.NODE_ENV === 'production' 
-    ? 'https://cscloud7-138.lnu.se'  // Production
-    : 'http://localhost:5173',        // Development
+  origin: function(origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    if (allowedOrigins.indexOf(origin) === -1) {
+      const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
+      return callback(new Error(msg), false);
+    }
+    return callback(null, true);
+  },
   credentials: true,
   methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
   allowedHeaders: ['Content-Type', 'Authorization'],
@@ -47,9 +55,10 @@ app.options('*', cors());
 
 // Add security headers
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', process.env.NODE_ENV === 'production' 
-    ? 'https://cscloud7-138.lnu.se'  // Production
-    : 'http://localhost:5173');       // Development
+  const origin = req.headers.origin;
+  if (allowedOrigins.includes(origin)) {
+    res.header('Access-Control-Allow-Origin', origin);
+  }
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.header('Access-Control-Allow-Headers', 'Content-Type, Authorization');
   res.header('Access-Control-Allow-Credentials', 'true');
@@ -64,6 +73,7 @@ app.use('/api/auth', authRoutes);
 
 // Protected routes
 app.use('/api/animals', verifyToken, animalRoutes);
+app.use('/api/individuals', verifyToken, individualRoutes);
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '../../frontend/dist')));
@@ -84,7 +94,7 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // Error handling middleware
-app.use((err, req, res, next) => {
+app.use((err, req, res) => {
   console.error(err.stack);
   
   // Handle specific error types

@@ -134,7 +134,7 @@ router.post('/login', async (req, res) => {
 // Profile route
 router.get('/profile', verifyToken, async (req, res) => {
   try {
-    const user = await User.findById(req.user.userId);
+    const user = await User.findById(req.user._id);
     if (!user) {
       return res.status(404).json({ 
         message: 'Användare hittades inte',
