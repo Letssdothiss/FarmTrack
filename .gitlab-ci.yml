@@ -47,6 +47,17 @@ test-frontend-lint:
   only:
     - main
 
+# Test frontend with Vitest
+test-frontend:
+  stage: test
+  image: node:20-alpine
+  script:
+    - cd packages/frontend
+    - npm install
+    - npm test
+  only:
+    - main
+
 # Test backend
 test-backend-lint:
   stage: test
