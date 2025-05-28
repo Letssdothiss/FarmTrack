@@ -78,13 +78,14 @@ const DeleteAccountModal = ({ isOpen, onClose }) => {
           gap: '15px'
         }}>
           <div>
-            <label style={{ color: 'white', display: 'block', marginBottom: '5px' }}>
+            <label
+              htmlFor="password"
+              style={{ color: 'white', display: 'block', marginBottom: '5px' }}
+            >
               Bekräfta med ditt lösenord
             </label>
             <input
-              type="password"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
+              id="password"
               style={{
                 width: '100%',
                 padding: '8px',
@@ -93,6 +94,9 @@ const DeleteAccountModal = ({ isOpen, onClose }) => {
                 backgroundColor: 'rgb(69, 49, 22)',
                 color: 'white'
               }}
+              type="password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
             />
           </div>
           {error && (

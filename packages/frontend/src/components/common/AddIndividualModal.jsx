@@ -37,42 +37,39 @@ const AddIndividualModal = ({ isOpen, onClose, onAdd }) => {
       zIndex: 1000
     }}>
       <div style={{
-        backgroundColor: 'rgb(119, 87, 43, 0.95)',
+        backgroundColor: 'rgba(119, 87, 43, 0.95)',
         padding: '20px',
         borderRadius: '8px',
         width: '400px',
         maxWidth: '90%'
       }}>
         <h2 style={{ color: 'white', margin: '0 0 20px 0' }}>Lägg till individ</h2>
-        <form onSubmit={handleSubmit} style={{
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '15px'
-        }}>
+        <form onSubmit={handleSubmit} style={{ display: 'flex', flexDirection: 'column', gap: '15px' }}>
           <div>
-            <label style={{ color: 'white', display: 'block', marginBottom: '5px' }}>
+            <label htmlFor="name" style={{ color: 'white', display: 'block', marginBottom: '5px' }}>
               Namn
             </label>
             <input
+              id="name"
               type="text"
+              required
               value={name}
               onChange={(e) => setName(e.target.value)}
-              required
               style={{
                 width: '100%',
                 padding: '8px',
                 borderRadius: '4px',
-                border: 'none',
                 backgroundColor: 'rgb(69, 49, 22)',
                 color: 'white'
               }}
             />
           </div>
           <div>
-            <label style={{ color: 'white', display: 'block', marginBottom: '5px' }}>
+            <label htmlFor="idNumber" style={{ color: 'white', display: 'block', marginBottom: '5px' }}>
               ID-nummer (valfritt)
             </label>
             <input
+              id="idNumber"
               type="text"
               value={idNumber}
               onChange={(e) => setIdNumber(e.target.value)}
@@ -80,17 +77,12 @@ const AddIndividualModal = ({ isOpen, onClose, onAdd }) => {
                 width: '100%',
                 padding: '8px',
                 borderRadius: '4px',
-                border: 'none',
                 backgroundColor: 'rgb(69, 49, 22)',
                 color: 'white'
               }}
             />
           </div>
-          <div style={{
-            display: 'flex',
-            gap: '10px',
-            marginTop: '20px'
-          }}>
+          <div style={{ display: 'flex', gap: '10px', marginTop: '20px' }}>
             <button
               type="submit"
               style={{
@@ -98,7 +90,6 @@ const AddIndividualModal = ({ isOpen, onClose, onAdd }) => {
                 padding: '10px',
                 backgroundColor: 'rgb(40, 167, 69)',
                 color: 'white',
-                border: 'none',
                 borderRadius: '4px',
                 cursor: 'pointer'
               }}
@@ -113,7 +104,6 @@ const AddIndividualModal = ({ isOpen, onClose, onAdd }) => {
                 padding: '10px',
                 backgroundColor: 'rgb(108, 117, 125)',
                 color: 'white',
-                border: 'none',
                 borderRadius: '4px',
                 cursor: 'pointer'
               }}
