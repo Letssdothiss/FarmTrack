@@ -29,7 +29,8 @@ mongoose.connect(MONGODB_URI)
 // CORS configuration
 const allowedOrigins = [
   'http://localhost:5173',  // Vite development server
-  'https://cscloud7-138.lnu.se'  // Production
+  'https://cscloud7-138.lnu.se',  // Production
+  'http://localhost:5000'  // Docker network
 ];
 
 app.use(cors({
@@ -38,9 +39,11 @@ app.use(cors({
     if (!origin) return callback(null, true);
     
     if (allowedOrigins.indexOf(origin) === -1) {
+      console.log('Blocked CORS request from origin:', origin);
       const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
       return callback(new Error(msg), false);
     }
+    console.log('Allowed CORS request from origin:', origin);
     return callback(null, true);
   },
   credentials: true,
