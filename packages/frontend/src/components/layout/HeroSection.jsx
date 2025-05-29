@@ -11,21 +11,24 @@ import LargeRectangleButton from '../common/LargeRectangleButton';
  */
 const HeroSection = () => {
   return (
-    <div className="hero-section" style={{
-      backgroundImage: `url(${backgroundAndLogo})`,
-      backgroundSize: 'cover',
-      minHeight: '100vh',
-      minWidth: '100vw',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-      textAlign: 'center',
-      backgroundColor: 'rgb(39, 38, 38)',
-      overflow: 'hidden'
-    }}>
+    <div 
+      data-testid="hero-section"
+      className="hero-section" 
+      style={{
+        backgroundImage: `url(${backgroundAndLogo})`,
+        backgroundSize: 'cover',
+        minHeight: '100vh',
+        minWidth: '100vw',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        textAlign: 'center',
+        backgroundColor: 'rgb(39, 38, 38)',
+        overflow: 'hidden'
+      }}>
       <h3 style={{
         color: 'black',
         fontWeight: 'bold',
