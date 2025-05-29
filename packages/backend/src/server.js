@@ -94,7 +94,9 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // Error handling middleware
-app.use((err, req, res) => {
+// next parameter is required by Express for error handling middleware, even if unused
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) => {
   console.error(err.stack);
   
   // Handle specific error types
