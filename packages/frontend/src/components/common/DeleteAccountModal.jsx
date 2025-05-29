@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { fetchWithAuth } from '../../utils/api';
-import API_URL from '../../config/api';
 import { useNavigate } from 'react-router-dom';
 
 /**
@@ -23,7 +22,7 @@ const DeleteAccountModal = ({ isOpen, onClose }) => {
     setIsDeleting(true);
 
     try {
-      const response = await fetchWithAuth(`${API_URL}/auth/delete-account`, {
+      const response = await fetchWithAuth(`${import.meta.env.VITE_API_URL}/auth/delete-account`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
