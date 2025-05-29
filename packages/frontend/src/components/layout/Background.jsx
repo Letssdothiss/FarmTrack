@@ -14,22 +14,24 @@ import GoBackButton from '../common/GoBackButton';
  */
 const Background = ({ children, backTo = '/', showBackButton = true }) => {
   return (
-    <div style={{
-      backgroundImage: `url(${backgroundImage})`,
-      backgroundSize: 'cover',
-      minHeight: '100vh',
-      minWidth: '100vw',
-      backgroundPosition: 'center',
-      backgroundRepeat: 'no-repeat',
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'center',
-      alignItems: 'center',
-      textAlign: 'center',
-      backgroundColor: 'rgb(39, 38, 38)',
-      overflow: 'hidden',
-      position: 'relative'
-    }}>
+    <div 
+      data-testid="background-container"
+      style={{
+        backgroundImage: `url(${backgroundImage})`,
+        backgroundSize: 'cover',
+        minHeight: '100vh',
+        minWidth: '100vw',
+        backgroundPosition: 'center',
+        backgroundRepeat: 'no-repeat',
+        display: 'flex',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center',
+        textAlign: 'center',
+        backgroundColor: 'rgb(39, 38, 38)',
+        overflow: 'hidden',
+        position: 'relative'
+      }}>
       {showBackButton && (
         <div style={{
           position: 'absolute',
