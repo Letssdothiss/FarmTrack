@@ -1,7 +1,6 @@
 import React from 'react';
 import { render, screen } from '../../../tests/utils/testSetup';
-import userEvent from '@testing-library/user-event';
-import { vi, it, expect, describe } from 'vitest';
+import { it, expect, describe } from 'vitest';
 import '@testing-library/jest-dom';
 import AnimalTypeButton from '../../../src/components/common/AnimalTypeButton.jsx';
 

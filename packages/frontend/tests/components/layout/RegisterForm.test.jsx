@@ -3,7 +3,6 @@ import { render, screen, fireEvent, waitFor } from '../../../tests/utils/testSet
 import { vi, it, expect, describe, beforeEach } from 'vitest';
 import '@testing-library/jest-dom';
 import RegisterForm from '../../../src/components/layout/RegisterForm.jsx';
-import API_URL from '../../../src/config/api';
 
 // Mock the required components
 vi.mock('../../../src/components/layout/Background', () => ({
@@ -35,6 +34,7 @@ const mockHandleChange = vi.fn((e) => {
   };
 });
 
+// eslint-disable-next-line no-unused-vars
 const mockHandleBlur = vi.fn((e) => {
   const { name } = e.target;
   mockTouched = {
