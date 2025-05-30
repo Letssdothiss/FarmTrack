@@ -168,7 +168,7 @@ router.post('/delete-account', verifyToken, async (req, res) => {
       });
     }
 
-    const user = await User.findById(req.user.userId);
+    const user = await User.findById(req.user._id);
 
     if (!user) {
       return res.status(404).json({ 
@@ -187,10 +187,10 @@ router.post('/delete-account', verifyToken, async (req, res) => {
     }
 
     // Delete all animals associated with the user
-    await Animal.deleteMany({ userId: req.user.userId });
+    await Animal.deleteMany({ userId: req.user._id });
 
     // Delete the user
-    await User.findByIdAndDelete(req.user.userId);
+    await User.findByIdAndDelete(req.user._id);
 
     res.json({ 
       message: 'Ditt konto har raderats',
