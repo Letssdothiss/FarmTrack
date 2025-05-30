@@ -23,6 +23,8 @@ export const verifyToken = (req, res, next) => {
     
     next();
   } catch (error) {
+    // Keeping some console statements for convenience.
+    // eslint-disable-next-line no-console
     console.error('Token verification error:', error);
     res.status(401).json({ message: 'Ogiltig token' });
   }

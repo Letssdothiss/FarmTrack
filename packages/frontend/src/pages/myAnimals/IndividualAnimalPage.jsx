@@ -3,6 +3,7 @@ import { useParams /*useLocation*/ } from 'react-router-dom';
 import Background from '../../components/layout/Background';
 import LogoutButton from '../../components/common/LogoutButton';
 import individualService from '../../services/individualService';
+import NotesList from '../../components/common/NotesList';
 
 /**
  * IndividualAnimalPage component for displaying individual animal details
@@ -99,38 +100,7 @@ const IndividualAnimalPage = () => {
             gap: '20px',
             borderRadius: '8px'
           }}>
-            <h1 style={{
-              fontSize: '2rem',
-              width: '80%',
-              color: 'white',
-              margin: '0',
-              borderBottom: '2px solid white'
-            }}>
-              Anteckningar
-            </h1>
-            <div style={{
-              display: 'flex',
-              flexDirection: 'column',
-              gap: '10px',
-              width: '80%',
-              color: 'white'
-            }}>
-              {individual.notes.map((note, index) => (
-                <div
-                  key={index}
-                  style={{
-                    backgroundColor: 'rgb(69, 49, 22)',
-                    padding: '10px',
-                    borderRadius: '4px'
-                  }}
-                >
-                  <div>{note.content}</div>
-                  <div style={{ fontSize: '0.8rem', opacity: 0.7 }}>
-                    {new Date(note.createdAt).toLocaleString()}
-                  </div>
-                </div>
-              ))}
-            </div>
+            <NotesList individualId={individual._id} species={type} />
           </div>
         </div>
       )}

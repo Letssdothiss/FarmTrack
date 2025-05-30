@@ -9,6 +9,8 @@ router.get('/', async (req, res) => {
     const animals = await Animal.find({ userId: req.user.userId });
     res.json(animals);
   } catch (error) {
+    // Keeping some console statements for convenience.
+    // eslint-disable-next-line no-console
     console.error('Error fetching animals:', error);
     res.status(500).json({ message: 'Server error' });
   }
@@ -27,6 +29,8 @@ router.post('/', async (req, res) => {
     await animal.save();
     res.status(201).json(animal);
   } catch (error) {
+    // Keeping some console statements for convenience.
+    // eslint-disable-next-line no-console
     console.error('Error adding animal:', error);
     res.status(500).json({ message: 'Server error' });
   }
@@ -46,6 +50,8 @@ router.put('/:id', async (req, res) => {
     }
     res.json(animal);
   } catch (error) {
+    // Keeping some console statements for convenience.
+    // eslint-disable-next-line no-console
     console.error('Error updating animal:', error);
     res.status(500).json({ message: 'Server error' });
   }
@@ -63,6 +69,8 @@ router.delete('/:id', async (req, res) => {
     }
     res.json({ message: 'Djur borttaget' });
   } catch (error) {
+    // Keeping some console statements for convenience.
+    // eslint-disable-next-line no-console
     console.error('Error deleting animal:', error);
     res.status(500).json({ message: 'Server error' });
   }

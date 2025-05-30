@@ -1,5 +1,6 @@
 import React from 'react';
 import AnimalTypePage from '../../components/layout/AnimalTypePage';
+import NotesList from '../../components/common/NotesList';
 
 /**
  * GoatPage component
@@ -12,9 +13,7 @@ const GoatPage = () => {
       title="Get"
       type="goat"
       leftColumn={
-        <div style={{ color: 'white' }}>
-          {/* Här kommer anteckningar */}
-        </div>
+        <NotesList species="goat" />
       }
       rightColumn={
         <div style={{ color: 'white' }}>

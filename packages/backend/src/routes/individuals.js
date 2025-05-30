@@ -51,7 +51,6 @@ router.post('/', verifyToken, async (req, res) => {
     
     res.status(201).json(savedIndividual);
   } catch (error) {
-    console.error('Error creating individual:', error);
     res.status(400).json({ message: error.message });
   }
 });
@@ -77,6 +76,48 @@ router.post('/:animalType/:name/notes', verifyToken, async (req, res) => {
     res.json(updatedIndividual);
   } catch (error) {
     res.status(400).json({ message: error.message });
+  }
+});
+
+// Update an individual
+router.put('/:animalType/:id', verifyToken, async (req, res) => {
+  try {
+    const individual = await Individual.findOneAndUpdate(
+      { 
+        _id: req.params.id,
+        userId: req.user._id,
+        animalType: req.params.animalType
+      },
+      req.body,
+      { new: true }
+    );
+
+    if (!individual) {
+      return res.status(404).json({ message: 'Individen hittades inte' });
+    }
+
+    res.json(individual);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+});
+
+// Delete an individual
+router.delete('/:animalType/:id', verifyToken, async (req, res) => {
+  try {
+    const individual = await Individual.findOneAndDelete({
+      _id: req.params.id,
+      userId: req.user._id,
+      animalType: req.params.animalType
+    });
+
+    if (!individual) {
+      return res.status(404).json({ message: 'Individen hittades inte' });
+    }
+
+    res.json({ message: 'Individen har tagits bort' });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
 });
 

@@ -1,5 +1,6 @@
 import React from 'react';
 import AnimalTypePage from '../../components/layout/AnimalTypePage';
+import NotesList from '../../components/common/NotesList';
 
 /**
  * PoultryPage component
@@ -12,9 +13,7 @@ const PoultryPage = () => {
       title="Fjäderfä"
       type="poultry"
       leftColumn={
-        <div style={{ color: 'white' }}>
-          {/* Här kommer anteckningar */}
-        </div>
+        <NotesList species="poultry" />
       }
       rightColumn={
         <div style={{ color: 'white' }}>
