@@ -4,6 +4,7 @@ import Background from './Background';
 import LogoutButton from '../common/LogoutButton';
 import AddIndividualModal from '../common/AddIndividualModal';
 import individualService from '../../services/individualService';
+import { fetchWithAuth } from '../../utils/api';
 
 /**
  * AnimalTypePage component for displaying animal type specific pages
@@ -37,19 +38,12 @@ const AnimalTypePage = ({ title, type, leftColumn }) => {
 
   const handleAddIndividual = async (individual) => {
     try {
-      console.log('Adding individual with data:', {
-        name: individual.name,
-        idNumber: individual.idNumber,
-        animalType: type
-      });
-
       const newIndividual = await individualService.createIndividual({
         name: individual.name,
         idNumber: individual.idNumber || '',  // Sätt tom sträng om idNumber är undefined
         animalType: type
       });
 
-      console.log('Response from server:', newIndividual);
       setIndividuals([...individuals, newIndividual]);
       setError(null);
     } catch (err) {
@@ -66,6 +60,30 @@ const AnimalTypePage = ({ title, type, leftColumn }) => {
         animalId: individual.idNumber
       }
     });
+  };
+
+  // TODO: Implementera redigering av individer
+  // - Lägg till en redigera-knapp bredvid ta bort-knappen
+  // - Implementera en modal för redigering med formulär
+  // - Använd PUT /individuals/:animalType/:id för att uppdatera individen
+  // - Uppdatera UI:t med den nya informationen
+
+  const handleDeleteIndividual = async (individual) => {
+    try {
+      const response = await fetchWithAuth(
+        `${import.meta.env.VITE_API_URL}/individuals/${type}/${individual._id}`,
+        { method: 'DELETE' }
+      );
+
+      if (!response.ok) {
+        throw new Error('Kunde inte ta bort individen');
+      }
+
+      setIndividuals(individuals.filter(i => i._id !== individual._id));
+    } catch (error) {
+      setError('Kunde inte ta bort individen');
+      console.error('Error deleting individual:', error);
+    }
   };
 
   return (
@@ -89,7 +107,8 @@ const AnimalTypePage = ({ title, type, leftColumn }) => {
           alignItems: 'center',
           boxSizing: 'border-box',
           gap: '20px',
-          borderRadius: '8px'
+          borderRadius: '8px',
+          overflowY: 'auto'
         }}>
           <h1 style={{
             fontSize: '2rem',
@@ -114,7 +133,8 @@ const AnimalTypePage = ({ title, type, leftColumn }) => {
           alignItems: 'center',
           boxSizing: 'border-box',
           gap: '20px',
-          borderRadius: '8px'
+          borderRadius: '8px',
+          overflowY: 'auto'
         }}>
           <h1 style={{
             fontSize: '2rem',
@@ -156,28 +176,53 @@ const AnimalTypePage = ({ title, type, leftColumn }) => {
             {individuals.map((individual) => (
               <div
                 key={individual._id}
-                onClick={() => handleIndividualClick(individual)}
                 style={{
                   backgroundColor: 'rgb(69, 49, 22)',
                   padding: '10px',
                   borderRadius: '4px',
                   display: 'flex',
                   justifyContent: 'space-between',
-                  alignItems: 'center',
-                  cursor: 'pointer',
-                  transition: 'background-color 0.2s',
-                  ':hover': {
-                    backgroundColor: 'rgb(89, 69, 42)'
-                  }
+                  alignItems: 'center'
                 }}
               >
-                <div>
+                <div
+                  onClick={() => handleIndividualClick(individual)}
+                  style={{
+                    cursor: 'pointer',
+                    flex: 1
+                  }}
+                >
                   <div style={{ fontWeight: 'bold' }}>{individual.name}</div>
                   {individual.idNumber && (
                     <div style={{ fontSize: '0.9rem', opacity: 0.8 }}>
                       ID: {individual.idNumber}
                     </div>
                   )}
+                </div>
+                <div style={{ 
+                  display: 'flex', 
+                  gap: '10px'
+                }}>
+                  <button
+                    type="button"
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      if (window.confirm('Är du säker på att du vill ta bort denna individ?')) {
+                        handleDeleteIndividual(individual);
+                      }
+                    }}
+                    style={{
+                      padding: '4px 8px',
+                      backgroundColor: 'rgb(220, 53, 69)',
+                      color: 'white',
+                      border: 'none',
+                      borderRadius: '4px',
+                      cursor: 'pointer',
+                      fontSize: '14px'
+                    }}
+                  >
+                    Ta bort
+                  </button>
                 </div>
               </div>
             ))}

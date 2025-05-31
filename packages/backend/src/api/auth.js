@@ -32,6 +32,8 @@ router.get('/profile', verifyToken, async (req, res) => {
     }
     res.json(user);
   } catch (error) {
+    // Keeping some console statements for convenience.
+    // eslint-disable-next-line no-console
     console.error('Profile error:', error);
     res.status(500).json({ message: 'Server error' });
   }

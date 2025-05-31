@@ -8,6 +8,7 @@ import { verifyToken } from './middleware/auth.js';
 import authRoutes from './routes/auth.js';
 import animalRoutes from './routes/animal.js';
 import individualRoutes from './routes/individuals.js';
+import notesRoutes from './routes/notes.js';
 
 // Load environment variables
 dotenv.config();
@@ -23,13 +24,18 @@ const PORT = process.env.PORT || 5000;
 const MONGODB_URI = `${process.env.MONGODB_URI_BASE}${process.env.MONGODB_URI_PARAMS}`;
 
 mongoose.connect(MONGODB_URI)
+  // Keeping some console statements for convenience.
+  // eslint-disable-next-line no-console
   .then(() => console.log('Connected to MongoDB.'))
+  // Keeping some console statements for convenience.
+  // eslint-disable-next-line no-console
   .catch(err => console.error('MongoDB connection error:', err));
 
 // CORS configuration
 const allowedOrigins = [
   'http://localhost:5173',  // Vite development server
-  'https://cscloud7-138.lnu.se'  // Production
+  'https://cscloud7-138.lnu.se',  // Production
+  'http://localhost:5000'  // Docker network
 ];
 
 app.use(cors({
@@ -38,6 +44,9 @@ app.use(cors({
     if (!origin) return callback(null, true);
     
     if (allowedOrigins.indexOf(origin) === -1) {
+      // Keeping some console statements for convenience.
+      // eslint-disable-next-line no-console
+      console.log('Blocked CORS request from origin:', origin);
       const msg = 'The CORS policy for this site does not allow access from the specified Origin.';
       return callback(new Error(msg), false);
     }
@@ -74,6 +83,7 @@ app.use('/api/auth', authRoutes);
 // Protected routes
 app.use('/api/animals', verifyToken, animalRoutes);
 app.use('/api/individuals', verifyToken, individualRoutes);
+app.use('/api/notes', verifyToken, notesRoutes);
 
 // Serve static files from the React app
 app.use(express.static(path.join(__dirname, '../../frontend/dist')));
@@ -94,9 +104,9 @@ if (process.env.NODE_ENV === 'development') {
 }
 
 // Error handling middleware
-app.use((err, req, res) => {
-  console.error(err.stack);
-  
+// next parameter is required by Express for error handling middleware, even if unused
+// eslint-disable-next-line no-unused-vars
+app.use((err, req, res, next) => {
   // Handle specific error types
   if (err.name === 'ValidationError') {
     return res.status(400).json({
@@ -126,6 +136,10 @@ app.get('*', (req, res) => {
 
 // Start server
 app.listen(PORT, () => {
+  // Keeping some console statements for convenience.
+  // eslint-disable-next-line no-console
   console.log(`Server is running on port ${PORT}`);
+  // Keeping some console statements for convenience.
+  // eslint-disable-next-line no-console
   console.log(`Environment: ${process.env.NODE_ENV || 'development'}`);
 });

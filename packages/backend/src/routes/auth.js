@@ -71,7 +71,6 @@ router.post('/register', async (req, res) => {
       token 
     });
   } catch (error) {
-    console.error('Register error:', error);
     res.status(500).json({ 
       message: 'Ett fel uppstod vid registrering. Försök igen senare.',
       type: 'error'
@@ -123,7 +122,6 @@ router.post('/login', async (req, res) => {
       token 
     });
   } catch (error) {
-    console.error('Login error:', error);
     res.status(500).json({ 
       message: 'Ett fel uppstod vid inloggning. Försök igen senare.',
       type: 'error'
@@ -147,7 +145,6 @@ router.get('/profile', verifyToken, async (req, res) => {
       password: user.password
     });
   } catch (error) {
-    console.error('Profile error:', error);
     res.status(500).json({ 
       message: 'Ett fel uppstod vid hämtning av profil. Försök igen senare.',
       type: 'error'
@@ -168,7 +165,7 @@ router.post('/delete-account', verifyToken, async (req, res) => {
       });
     }
 
-    const user = await User.findById(req.user.userId);
+    const user = await User.findById(req.user._id);
 
     if (!user) {
       return res.status(404).json({ 
@@ -187,17 +184,16 @@ router.post('/delete-account', verifyToken, async (req, res) => {
     }
 
     // Delete all animals associated with the user
-    await Animal.deleteMany({ userId: req.user.userId });
+    await Animal.deleteMany({ userId: req.user._id });
 
     // Delete the user
-    await User.findByIdAndDelete(req.user.userId);
+    await User.findByIdAndDelete(req.user._id);
 
     res.json({ 
       message: 'Ditt konto har raderats',
       type: 'success'
     });
   } catch (error) {
-    console.error('Delete account error:', error);
     res.status(500).json({ 
       message: 'Ett fel uppstod vid radering av kontot. Försök igen senare.',
       type: 'error'

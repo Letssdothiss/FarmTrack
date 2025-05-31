@@ -121,6 +121,60 @@ const individualService = {
       console.error('Error adding note:', error);
       throw error;
     }
+  },
+
+  /**
+   * Update an existing individual
+   * @param {string} individualId - The ID of the individual to update
+   * @param {Object} updates - The updates to apply
+   * @returns {Promise<Object>} The updated individual
+   */
+  updateIndividual: async (individualId, updates) => {
+    try {
+      const response = await fetch(`${API_URL}/individuals/${individualId}`, {
+        method: 'PUT',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(updates)
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Failed to update individual');
+      }
+
+      return response.json();
+    } catch (error) {
+      console.error('Error updating individual:', error);
+      throw error;
+    }
+  },
+
+  /**
+   * Delete an individual
+   * @param {string} individualId - The ID of the individual to delete
+   * @returns {Promise<void>}
+   */
+  deleteIndividual: async (individualId) => {
+    try {
+      const response = await fetch(`${API_URL}/individuals/${individualId}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${localStorage.getItem('token')}`,
+          'Content-Type': 'application/json'
+        }
+      });
+
+      if (!response.ok) {
+        const error = await response.json();
+        throw new Error(error.message || 'Failed to delete individual');
+      }
+    } catch (error) {
+      console.error('Error deleting individual:', error);
+      throw error;
+    }
   }
 };
 

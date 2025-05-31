@@ -47,6 +47,8 @@ export const register = async (req, res) => {
       }
     });
   } catch (error) {
+    // Keeping some console statements for convenience.
+    // eslint-disable-next-line no-console
     console.error('Register error:', error);
     res.status(500).json({ message: 'Ett fel uppstod vid registrering' });
   }
@@ -90,6 +92,8 @@ export const login = async (req, res) => {
       }
     });
   } catch (error) {
+    // Keeping some console statements for convenience.
+    // eslint-disable-next-line no-console
     console.error('Login error:', error);
     res.status(500).json({ message: 'Ett fel uppstod vid inloggning' });
   }

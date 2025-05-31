@@ -93,6 +93,17 @@ Object.defineProperty(window, 'localStorage', { value: localStorageMock });
 const mockLocation = { href: '' };
 Object.defineProperty(window, 'location', { value: mockLocation });
 
+// Mock import.meta.env
+vi.mock('../../../src/vite-env', () => ({
+  import: {
+    meta: {
+      env: {
+        VITE_API_URL: 'http://localhost:5000/api'
+      }
+    }
+  }
+}));
+
 describe('RegisterForm', () => {
   beforeEach(() => {
     vi.clearAllMocks();
@@ -150,7 +161,7 @@ describe('RegisterForm', () => {
     
     await waitFor(() => {
       expect(global.fetch).toHaveBeenCalledWith(
-        'http://localhost:5000/api/auth/register',
+        `${import.meta.env.VITE_API_URL}/auth/register`,
         expect.objectContaining({
           method: 'POST',
           headers: {
