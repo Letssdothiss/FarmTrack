@@ -74,9 +74,17 @@ test-backend:
   stage: test
   image: node:20-alpine
   services:
-    - mongo:latest
+    - name: mongo:latest
+      command: ["mongod", "--bind_ip_all"]
   variables:
     MONGODB_URI: mongodb://mongo:27017/test
+  before_script:
+    - apk add --no-cache mongodb-tools
+    - until mongosh --host mongo --eval "db.adminCommand('ping')" > /dev/null 2>&1; do
+        echo "Waiting for MongoDB to be ready...";
+        sleep 2;
+      done
+    - echo "MongoDB is ready!"
   script:
     - cd packages/backend
     - npm install
