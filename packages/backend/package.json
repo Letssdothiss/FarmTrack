@@ -11,7 +11,10 @@
     "lint": "eslint .",
     "lint:fix": "eslint . --fix",
     "format": "prettier --write .",
-    "format:check": "prettier --check ."
+    "format:check": "prettier --check .",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "keywords": [],
   "author": "Emil Jonasson Östvall <ej224jt@student.lnu.se>",
@@ -28,10 +31,13 @@
     "winston": "^3.11.0"
   },
   "devDependencies": {
+    "@babel/preset-env": "^7.27.2",
     "eslint": "^8.56.0",
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-import": "^2.29.1",
+    "jest": "^29.7.0",
     "nodemon": "^3.0.2",
-    "prettier": "^3.2.4"
+    "prettier": "^3.2.4",
+    "supertest": "^7.1.1"
   }
 }
