@@ -34,8 +34,7 @@ const NoteModal = ({ isOpen, onClose, onNoteCreated, species, individualId, note
       const noteData = {
         title,
         content,
-        species,
-        individualId
+        ...(individualId ? { individualId } : { species })
       };
       
       const response = await fetchWithAuth(url, {

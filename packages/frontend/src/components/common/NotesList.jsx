@@ -39,7 +39,9 @@ const NotesList = ({ species, individualId }) => {
       }
 
       const data = await response.json();
-      setNotes(data);
+      // If we're fetching species notes, filter out any notes that have an individualId
+      const filteredData = species ? data.filter(note => !note.individualId) : data;
+      setNotes(filteredData);
     } catch (error) {
       console.error('Error fetching notes:', error);
       setError(error.message);
@@ -103,12 +105,20 @@ const NotesList = ({ species, individualId }) => {
   }
 
   return (
-    <div>
+    <div style={{
+      width: '100%',
+      height: '100%',
+      display: 'flex',
+      flexDirection: 'column',
+      alignItems: 'center',
+      gap: '20px',
+      overflowY: 'auto'
+    }}>
       <div style={{
+        width: '80%',
         display: 'flex',
         justifyContent: 'space-between',
-        alignItems: 'center',
-        marginBottom: '20px'
+        alignItems: 'center'
       }}>
         <button
           onClick={() => {
@@ -116,12 +126,15 @@ const NotesList = ({ species, individualId }) => {
             setIsModalOpen(true);
           }}
           style={{
-            padding: '8px 16px',
+            width: '100%',
+            padding: '10px',
             backgroundColor: 'rgb(40, 167, 69)',
             color: 'white',
             border: 'none',
             borderRadius: '4px',
-            cursor: 'pointer'
+            cursor: 'pointer',
+            fontSize: '1rem',
+            fontWeight: 'bold'
           }}
         >
           Lägg till anteckning
@@ -132,6 +145,7 @@ const NotesList = ({ species, individualId }) => {
         <div style={{ color: 'white' }}>Inga anteckningar än</div>
       ) : (
         <div style={{
+          width: '80%',
           display: 'flex',
           flexDirection: 'column',
           gap: '10px'
@@ -150,20 +164,25 @@ const NotesList = ({ species, individualId }) => {
             >
               <div style={{
                 display: 'flex',
-                flexDirection: 'column',
-                gap: '10px'
+                justifyContent: 'space-between',
+                alignItems: 'center'
               }}>
-                <h4 style={{ margin: 0 }}>{note.title}</h4>
                 <div style={{
-                  fontSize: '0.8em',
-                  color: 'rgba(255, 255, 255, 0.7)'
+                  display: 'flex',
+                  flexDirection: 'column',
+                  gap: '10px'
                 }}>
-                  {new Date(note.createdAt).toLocaleString()}
+                  <h4 style={{ margin: 0 }}>{note.title}</h4>
+                  <div style={{
+                    fontSize: '0.8em',
+                    color: 'rgba(255, 255, 255, 0.7)'
+                  }}>
+                    {new Date(note.createdAt).toLocaleString()}
+                  </div>
                 </div>
                 <div style={{ 
                   display: 'flex', 
-                  gap: '10px',
-                  justifyContent: 'flex-end'
+                  gap: '10px'
                 }}>
                   <button
                     onClick={(e) => {

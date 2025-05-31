@@ -100,7 +100,7 @@ const IndividualAnimalPage = () => {
             gap: '20px',
             borderRadius: '8px'
           }}>
-            <NotesList individualId={individual._id} species={type} />
+            <NotesList individualId={individual._id} />
           </div>
         </div>
       )}
