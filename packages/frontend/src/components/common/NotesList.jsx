@@ -11,6 +11,7 @@ import NoteModal from './NoteModal';
  * @returns {React.ReactElement} The NotesList component
  */
 const NotesList = ({ species, individualId }) => {
+  // State management for notes and UI
   const [notes, setNotes] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isViewModalOpen, setIsViewModalOpen] = useState(false);
@@ -18,11 +19,17 @@ const NotesList = ({ species, individualId }) => {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
+  /**
+   * Fetches notes based on either species or individual ID
+   * If species is provided, filters out notes that have an individualId
+   * This ensures species-level notes are separate from individual notes
+   */
   const fetchNotes = async () => {
     try {
       setIsLoading(true);
       let url;
       
+      // Determine which endpoint to use based on props
       if (individualId) {
         url = `${import.meta.env.VITE_API_URL}/notes/individual/${individualId}`;
       } else if (species) {
@@ -39,7 +46,7 @@ const NotesList = ({ species, individualId }) => {
       }
 
       const data = await response.json();
-      // If we're fetching species notes, filter out any notes that have an individualId
+      // Filter out individual notes when viewing species notes
       const filteredData = species ? data.filter(note => !note.individualId) : data;
       setNotes(filteredData);
     } catch (error) {

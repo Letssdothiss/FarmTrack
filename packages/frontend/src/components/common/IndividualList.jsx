@@ -12,12 +12,18 @@ import IndividualCard from './IndividualCard';
  * @returns {React.ReactElement} The IndividualList component
  */
 const IndividualList = ({ species }) => {
+  // State management for individuals and UI
   const [individuals, setIndividuals] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [selectedIndividual, setSelectedIndividual] = useState(null);
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(true);
 
+  /**
+   * Fetches individuals for the specified species
+   * Updates the individuals state with the fetched data
+   * Handles loading states and errors
+   */
   const fetchIndividuals = async () => {
     try {
       setIsLoading(true);
@@ -37,12 +43,19 @@ const IndividualList = ({ species }) => {
     }
   };
 
+  // Fetch individuals when species changes
   useEffect(() => {
     fetchIndividuals();
     // Defined within the component, so ignoring the lint warning is ok.
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [species]);
 
+  /**
+   * Handles individual creation/update
+   * If selectedIndividual exists, updates the existing individual
+   * Otherwise adds the new individual to the beginning of the list
+   * Resets the selectedIndividual state after operation
+   */
   const handleIndividualCreated = (individual) => {
     if (selectedIndividual) {
       setIndividuals(individuals.map(i => i._id === individual._id ? individual : i));

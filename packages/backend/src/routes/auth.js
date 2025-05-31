@@ -1,4 +1,5 @@
 import express from 'express';
+// eslint-disable-next-line no-unused-vars
 import bcrypt from 'bcryptjs';
 // eslint-disable-next-line no-unused-vars
 import jwt from 'jsonwebtoken';
