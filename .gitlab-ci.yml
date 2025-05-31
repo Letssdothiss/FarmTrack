@@ -58,7 +58,7 @@ test-frontend:
   only:
     - main
 
-# Test backend
+# Test backend linting
 test-backend-lint:
   stage: test
   image: node:20-alpine
@@ -75,7 +75,9 @@ test-backend:
   image: node:20-alpine
   services:
     - name: mongo:latest
-      command: ["mongod", "--bind_ip_all"]
+      alias: mongo
+      variables:
+        MONGO_INITDB_DATABASE: test
   variables:
     MONGODB_URI: mongodb://mongo:27017/test
   before_script:
