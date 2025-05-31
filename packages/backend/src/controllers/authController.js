@@ -1,4 +1,4 @@
-import bcrypt from 'bcrypt';
+import bcrypt from 'bcryptjs';
 import jwt from 'jsonwebtoken';
 import User from '../models/User.js';
 
@@ -9,7 +9,7 @@ import User from '../models/User.js';
  */
 export const register = async (req, res) => {
   try {
-    const { email, password, name } = req.body;
+    const { email, password } = req.body;
 
     // Check if user already exists
     const existingUser = await User.findOne({ email });
@@ -17,15 +17,10 @@ export const register = async (req, res) => {
       return res.status(400).json({ message: 'Användaren finns redan' });
     }
 
-    // Hash password
-    const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
-
     // Create new user
     const user = new User({
       email,
-      password: hashedPassword,
-      name
+      password
     });
 
     await user.save();
@@ -42,13 +37,10 @@ export const register = async (req, res) => {
       token,
       user: {
         id: user._id,
-        email: user.email,
-        name: user.name
+        email: user.email
       }
     });
   } catch (error) {
-    // Keeping some console statements for convenience.
-    // eslint-disable-next-line no-console
     console.error('Register error:', error);
     res.status(500).json({ message: 'Ett fel uppstod vid registrering' });
   }
@@ -66,13 +58,13 @@ export const login = async (req, res) => {
     // Find user
     const user = await User.findOne({ email });
     if (!user) {
-      return res.status(400).json({ message: 'Felaktig e-post eller lösenord' });
+      return res.status(401).json({ message: 'Felaktig e-post eller lösenord' });
     }
 
-    // Verify password
-    const isValidPassword = await bcrypt.compare(password, user.password);
+    // Verify password using User model's method
+    const isValidPassword = await user.comparePassword(password);
     if (!isValidPassword) {
-      return res.status(400).json({ message: 'Felaktig e-post eller lösenord' });
+      return res.status(401).json({ message: 'Felaktig e-post eller lösenord' });
     }
 
     // Generate JWT
@@ -87,13 +79,10 @@ export const login = async (req, res) => {
       token,
       user: {
         id: user._id,
-        email: user.email,
-        name: user.name
+        email: user.email
       }
     });
   } catch (error) {
-    // Keeping some console statements for convenience.
-    // eslint-disable-next-line no-console
     console.error('Login error:', error);
     res.status(500).json({ message: 'Ett fel uppstod vid inloggning' });
   }
