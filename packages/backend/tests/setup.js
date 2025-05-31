@@ -1,13 +1,16 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
+import { beforeAll, afterAll, afterEach } from '@jest/globals';
+import path from 'path';
 
-dotenv.config();
+// Ladda test-miljövariabler
+dotenv.config({ path: path.resolve(process.cwd(), '.env.test') });
 
 // Använd test-databasen
-process.env.MONGODB_URI = process.env.MONGODB_URI.replace(
-  /\/[^/]+$/,
-  '/test'
-);
+const defaultUri = 'mongodb://localhost:27017/farmtrack';
+const originalUri = process.env.MONGODB_URI || defaultUri;
+const testUri = originalUri.replace(/\/[^/]+$/, '/test');
+process.env.MONGODB_URI = testUri;
 
 beforeAll(async () => {
   await mongoose.connect(process.env.MONGODB_URI);
