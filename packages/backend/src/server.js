@@ -4,6 +4,8 @@ import path from 'path';
 import { fileURLToPath } from 'url';
 import dotenv from 'dotenv';
 import mongoose from 'mongoose';
+import swaggerUi from 'swagger-ui-express';
+import { specs } from './config/swagger.js';
 import { verifyToken } from './middleware/auth.js';
 import authRoutes from './routes/auth.js';
 import animalRoutes from './routes/animal.js';
@@ -76,6 +78,9 @@ app.use((req, res, next) => {
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
+
+// API Documentation
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs));
 
 // Public routes
 app.use('/api/auth', authRoutes);

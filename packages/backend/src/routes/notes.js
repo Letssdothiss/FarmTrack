@@ -4,7 +4,47 @@ import Note from '../models/Note.js';
 
 const router = express.Router();
 
-// Hämta alla anteckningar för en art
+/**
+ * @swagger
+ * /api/notes/species/{species}:
+ *   get:
+ *     summary: Get all notes for a specific species
+ *     tags: [Notes]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: species
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Species name (e.g., 'cow', 'sheep')
+ *     responses:
+ *       200:
+ *         description: List of notes for the species
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   _id:
+ *                     type: string
+ *                   title:
+ *                     type: string
+ *                   content:
+ *                     type: string
+ *                   species:
+ *                     type: string
+ *                   createdAt:
+ *                     type: string
+ *                     format: date-time
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Server error
+ */
 router.get('/species/:species', verifyToken, async (req, res) => {
   try {
     const notes = await Note.find({
@@ -21,7 +61,47 @@ router.get('/species/:species', verifyToken, async (req, res) => {
   }
 });
 
-// Hämta alla anteckningar för en individ
+/**
+ * @swagger
+ * /api/notes/individual/{individualId}:
+ *   get:
+ *     summary: Get all notes for a specific individual
+ *     tags: [Notes]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: individualId
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Individual ID
+ *     responses:
+ *       200:
+ *         description: List of notes for the individual
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: array
+ *               items:
+ *                 type: object
+ *                 properties:
+ *                   _id:
+ *                     type: string
+ *                   title:
+ *                     type: string
+ *                   content:
+ *                     type: string
+ *                   individualId:
+ *                     type: string
+ *                   createdAt:
+ *                     type: string
+ *                     format: date-time
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Server error
+ */
 router.get('/individual/:individualId', verifyToken, async (req, res) => {
   try {
     const notes = await Note.find({
@@ -38,7 +118,60 @@ router.get('/individual/:individualId', verifyToken, async (req, res) => {
   }
 });
 
-// Skapa en ny anteckning
+/**
+ * @swagger
+ * /api/notes:
+ *   post:
+ *     summary: Create a new note
+ *     tags: [Notes]
+ *     security:
+ *       - bearerAuth: []
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - title
+ *               - content
+ *             properties:
+ *               title:
+ *                 type: string
+ *               content:
+ *                 type: string
+ *               species:
+ *                 type: string
+ *               individualId:
+ *                 type: string
+ *     responses:
+ *       201:
+ *         description: Note created successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 _id:
+ *                   type: string
+ *                 title:
+ *                   type: string
+ *                 content:
+ *                   type: string
+ *                 species:
+ *                   type: string
+ *                 individualId:
+ *                   type: string
+ *                 createdAt:
+ *                   type: string
+ *                   format: date-time
+ *       400:
+ *         description: Bad request - Missing required fields
+ *       401:
+ *         description: Unauthorized
+ *       500:
+ *         description: Server error
+ */
 router.post('/', verifyToken, async (req, res) => {
   try {
     const { title, content, species, individualId } = req.body;
@@ -69,7 +202,63 @@ router.post('/', verifyToken, async (req, res) => {
   }
 });
 
-// Uppdatera en anteckning
+/**
+ * @swagger
+ * /api/notes/{id}:
+ *   put:
+ *     summary: Update a note
+ *     tags: [Notes]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Note ID
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             required:
+ *               - title
+ *               - content
+ *             properties:
+ *               title:
+ *                 type: string
+ *               content:
+ *                 type: string
+ *     responses:
+ *       200:
+ *         description: Note updated successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 _id:
+ *                   type: string
+ *                 title:
+ *                   type: string
+ *                 content:
+ *                   type: string
+ *                 species:
+ *                   type: string
+ *                 individualId:
+ *                   type: string
+ *                 createdAt:
+ *                   type: string
+ *                   format: date-time
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: Note not found
+ *       500:
+ *         description: Server error
+ */
 router.put('/:id', verifyToken, async (req, res) => {
   try {
     const { title, content } = req.body;
@@ -92,7 +281,38 @@ router.put('/:id', verifyToken, async (req, res) => {
   }
 });
 
-// Ta bort en anteckning
+/**
+ * @swagger
+ * /api/notes/{id}:
+ *   delete:
+ *     summary: Delete a note
+ *     tags: [Notes]
+ *     security:
+ *       - bearerAuth: []
+ *     parameters:
+ *       - in: path
+ *         name: id
+ *         required: true
+ *         schema:
+ *           type: string
+ *         description: Note ID
+ *     responses:
+ *       200:
+ *         description: Note deleted successfully
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 message:
+ *                   type: string
+ *       401:
+ *         description: Unauthorized
+ *       404:
+ *         description: Note not found
+ *       500:
+ *         description: Server error
+ */
 router.delete('/:id', verifyToken, async (req, res) => {
   try {
     const note = await Note.findOneAndDelete({
