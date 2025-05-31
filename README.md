@@ -9,19 +9,19 @@ FarmTrack is a web-based application that helps farmers and animal owners mainta
 ## Features
 
 - Multi-species animal management
-- Pre-built templates for common documentation needs
-- Customizable templates and journal entries
-- Notification system for reminders
+- Pre-built templates for common documentation needs `TBA`
+- Customizable templates and journal entries `TBA`
+- Notification system for reminders `TBA`
 - User-friendly interface
 - Cloud-based storage
 
 ## Tech Stack
 
-- **Frontend**: React, Vite, Tailwind CSS
+- **Frontend**: React, Vite
 - **Backend**: Node.js, Express
 - **Database**: MongoDB Atlas
 - **Deployment**: Docker, Nginx, PM2
-- **Hosting**: CSCloud VM
+- **Hosting**: CSCloud, Ubuntu
 
 ## Project Structure
 
